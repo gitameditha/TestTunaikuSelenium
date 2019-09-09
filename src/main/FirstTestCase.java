@@ -4,12 +4,15 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -40,10 +43,10 @@ public class FirstTestCase {
 	    public void navigateToUrl(){
 	    	
 	    
-	    	
-	        driver.get("https://test.tunaiku.com/");
+	    	 JavascriptExecutor js = (JavascriptExecutor)driver;	
+	        driver.get("https://test.tunaiku.com");
 	        
-	       
+	      
 	        
 	        WebElement slider = driver.findElement(By.xpath("//div[@id='slider_jumlahPinjaman']/mat-slider/div/div[3]/div[2]"));
 	        WebElement target = driver.findElement(By.xpath("//div[@id='slider_jumlahPinjaman']/mat-slider"));
@@ -86,9 +89,11 @@ public class FirstTestCase {
 	        
 	    		driver.findElement(By.id("inp_noKTP")).sendKeys("1234567890987651");
 	    	
-	    		WebElement NamaBank = driver.findElement(By.name("bankName"));  
-		        Select objBank = new Select(NamaBank);  
-		        objBank.selectByValue("AGRIS");
+	    		  WebElement namaBank = driver.findElement(By.id("inp_namaBank"));
+	    		  namaBank.sendKeys("BNI");
+	    		  namaBank.sendKeys(Keys.ARROW_DOWN);
+	    		  namaBank.sendKeys(Keys.ARROW_UP);
+	    		  namaBank.sendKeys(Keys.ENTER);
 
 		    	driver.findElement(By.id("inp_noRekening")).sendKeys("1231231233");
 		    	
@@ -96,7 +101,8 @@ public class FirstTestCase {
 		        Select ObjEducation = new Select(educationType);  
 		        ObjEducation.selectByValue("JuniorHighSchool");
 		        
-		        driver.findElement(By.id("inp_yaAreaLayanan")).click();
+		        WebElement zonasi =driver.findElement(By.xpath("//button[@id='inp_yaAreaLayanan']"));
+		        js.executeScript("arguments[0].click();", zonasi);
 		        
 		        driver.findElement(By.id("inp_formSelanjutnya_DataDiri")).click();
 		        
@@ -144,21 +150,24 @@ public class FirstTestCase {
     			
     			driver.findElement(By.id("inp_RWKTP")).sendKeys("1");
     			
-    			WebElement inp_provinsiKTP = driver.findElement(By.id("inp_provinsiKTP"));  
+    			WebElement inp_provinsiKTP = driver.findElement(By.xpath("//*[@id=\"inp_provinsiKTP\"]"));  
+    			//js.executeScript("arguments[0].click();", inp_provinsiKTP);
+    			js.executeScript("window.scrollTo(0,"+inp_provinsiKTP.getLocation().y+")");
     		    Select ObjPrnvsi = new Select(inp_provinsiKTP);  
-    		    ObjPrnvsi.selectByValue("16");
+    		    ObjPrnvsi.selectByValue("1");
+    		    //js.executeScript("arguments[0].click();", ObjPrnvsi);
     		    
     		    WebElement inp_kotaKTP = driver.findElement(By.id("inp_kotaKTP"));  
     		    Select ObjKota = new Select(inp_kotaKTP);  
-    		    ObjKota.selectByValue("263");
+    		    ObjKota.selectByValue("5");
 
     		    WebElement inp_kecamatanKTP = driver.findElement(By.id("inp_kecamatanKTP"));  
     		    Select ObjKec = new Select(inp_kecamatanKTP);  
-    		    ObjKec.selectByValue("3328");
+    		    ObjKec.selectByValue("1");
     		    
     		    WebElement inp_kelurahanKTP = driver.findElement(By.id("inp_kelurahanKTP"));  
     		    Select ObjKel = new Select(inp_kelurahanKTP);  
-    		    ObjKel.selectByValue("39678");
+    		    ObjKel.selectByValue("1");
 
     		    WebElement inp_agama = driver.findElement(By.id("inp_agama"));  
     		    Select ObjAgama = new Select(inp_agama);  
@@ -184,9 +193,12 @@ public class FirstTestCase {
 			
 			driver.findElement(By.id("inp_RWKTPTinggal")).sendKeys("1");
 			
+			
 			WebElement inp_provinsiKTPTinggal = driver.findElement(By.id("inp_provinsiKTPTinggal"));  
+			js.executeScript("window.scrollTo(0,"+inp_provinsiKTPTinggal.getLocation().y+")");
   		    Select ObjProvTgl = new Select(inp_provinsiKTPTinggal);  
   		    ObjProvTgl.selectByValue("1");
+  		    
 
   		    WebElement inp_kotaKTPTinggal = driver.findElement(By.id("inp_kotaKTPTinggal"));  
 		    Select ObjkotTgl = new Select(inp_kotaKTPTinggal);  
